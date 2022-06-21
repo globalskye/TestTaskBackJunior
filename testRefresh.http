@@ -1,0 +1,9 @@
+POST http://localhost:8080/refresh
+Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NTU4MDY5MDMsImp0aSI6IjE4M2ZmNzM2LWYzNjktNGEzMS04YmIyLTBiNDVhNGJkYzhlOSJ9.20regMuCqRaoNGZav8LlBmMYta7B1p9FzhucSpnxaI061Wyoyy8QpTcWaaWPcEDswDvGVmriWQ8NmX3bMGd4ZA
+Content-Type: application/json
+
+{
+  "refresh_token": "ZmMwOWQzNTAtNzA2NC00MzUyLWI1YTQtNTAzNjg3MjFlMWEw"
+}
+
+###

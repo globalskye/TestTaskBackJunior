@@ -1,0 +1,6 @@
+
+GET http://localhost:8080/register?guid=183ff736-f369-4a31-8bb2-0b45a4bdc8e9
+
+Accept: application/json
+
+###
