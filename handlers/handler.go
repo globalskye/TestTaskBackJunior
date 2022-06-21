@@ -109,7 +109,9 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	ok := user2.IsExpired(userFromClaims.Claims.ExpiresAt)
 	if ok {
 		//access token expire
+		w.Write([]byte("access token expire"))
 		w.WriteHeader(http.StatusUnauthorized)
+		return
 	}
 
 	userFromDb, ok := db.GetUserByGUID(userFromClaims.Claims.Id)
