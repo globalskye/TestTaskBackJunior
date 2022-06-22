@@ -48,7 +48,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	expTime, err := time.ParseDuration(config.Conf.RefreshTokenTime)
+	expTime, err := time.ParseDuration(config.Conf.AccessTokenTime)
 	if err != nil {
 		w.Write([]byte("refresh token expired"))
 		w.WriteHeader(http.StatusUnauthorized)
