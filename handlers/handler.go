@@ -58,7 +58,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	response, err := json.Marshal(&models.TokenResponse{
 		AccessToken:  tokens.AuthToken,
 		TokenType:    "Bearer",
-		ExpiresAt:    time.Now().Add(expTime).UTC().Unix(),
+		ExpiresAt:    time.Now().Add(expTime).UTC().Format(time.RFC822),
 		RefreshToken: tokens.RefreshToken,
 	})
 
@@ -102,6 +102,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	userFromClaims, err := user2.ParseAccessToken(headerParts[1])
 	if err != nil {
 		//bad access token
+		w.Write([]byte("bad access token"))
 		w.WriteHeader(http.StatusUnauthorized)
 		return
 	}
@@ -152,15 +153,16 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Parse time error"))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
-		
+
 	}
 
 	response, err := json.Marshal(&models.TokenResponse{
 		AccessToken:  tokens.AuthToken,
 		TokenType:    "Bearer",
-		ExpiresAt:    time.Now().Add(expTime).UTC().Unix(),
+		ExpiresAt:    time.Now().Add(expTime).UTC().Format(time.RFC822),
 		RefreshToken: tokens.RefreshToken,
 	})
+
 	if err != nil {
 		w.Write([]byte("Error when marshal json"))
 		w.WriteHeader(http.StatusInternalServerError)
