@@ -18,7 +18,7 @@ type AuthToken struct {
 type TokenResponse struct {
 	AccessToken  string `json:"access_token"`
 	TokenType    string `json:"token_type"`
-	ExpiresAt    int64  `json:"expires_at"`
+	ExpiresAt    string `json:"expires_at"`
 	RefreshToken string `json:"refresh_token"`
 }
 
