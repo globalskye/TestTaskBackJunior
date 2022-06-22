@@ -152,6 +152,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Parse time error"))
 		w.WriteHeader(http.StatusInternalServerError)
 		return
+		
 	}
 
 	response, err := json.Marshal(&models.TokenResponse{
