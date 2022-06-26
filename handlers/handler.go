@@ -8,7 +8,6 @@ import (
 	"strings"
 
 	"jwttask/models"
-	user2 "jwttask/user"
 	"net/http"
 	"time"
 )
@@ -19,7 +18,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	guid := r.URL.Query().Get("guid")
 
-	ok := user2.IsValidGuid(guid)
+	ok := helper.IsValidGuid(guid)
 	if !ok {
 		w.Write([]byte("Bad GUID"))
 		w.WriteHeader(http.StatusBadRequest)
@@ -38,7 +37,7 @@ func Register(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tokens := user2.GenerateTokens(user)
+	tokens := helper.GenerateTokens(user)
 
 	ok = db.InsertUserByGUID(user, tokens)
 
@@ -99,7 +98,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userFromClaims, err := user2.ParseAccessToken(headerParts[1])
+	userFromClaims, err := helper.ParseAccessToken(headerParts[1])
 	if err != nil {
 		//bad access token
 		w.Write([]byte("bad access token"))
@@ -107,7 +106,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ok := user2.IsExpired(userFromClaims.Claims.ExpiresAt)
+	ok := helper.IsExpired(userFromClaims.Claims.ExpiresAt)
 	if ok {
 		//access token expire
 		w.Write([]byte("access token expire"))
@@ -129,7 +128,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	ok = user2.IsExpired(userFromDb.ExpiresAt.Unix())
+	ok = helper.IsExpired(userFromDb.ExpiresAt.Unix())
 	if ok {
 		w.Write([]byte("refresh token expired"))
 		w.WriteHeader(http.StatusUnauthorized)
@@ -139,7 +138,7 @@ func Refresh(w http.ResponseWriter, r *http.Request) {
 	var user models.User
 	user.GUID = userFromClaims.Claims.Id
 
-	tokens := user2.GenerateTokens(user)
+	tokens := helper.GenerateTokens(user)
 
 	ok = db.UpdateUserByGUID(user, tokens)
 	if !ok {
